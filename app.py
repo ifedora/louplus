@@ -19,17 +19,17 @@ class Files(object):
 		return [item["title"] for item in self._files.values()]
 	def get_by_filenames(self,filename):
 		return self._files.get(filename)
-files = Files
+files = Files()
 @app.route("/")
 def index():
-	return render_template("index",title_list=files.get_title_list)
+	return render_template("index.html",title_list=files.get_title_list())
 
-@app.route("files/<filename>")
+@app.route("/files/<filename>")
 def file(filename):
-	file.item=files.get_by_filenames(filename)
+	file_item=files.get_by_filenames(filename)
 	if not file_item:
-		abort(404)
-		return render_template('file.html',file_item=file_item)
+	    abort(404)
+	return render_template('file.html',file_item=file_item)
 @app.errorhandler(404)
 def not_found(error):
 	return render_template('404.html'),404
